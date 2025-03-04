@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jake Donfort's Minigame</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: repeat(5, 50px);
+            gap: 5px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .diamond-1 { background-color: red; }
+        .diamond-2 { background-color: blue; }
+        .diamond-3 { background-color: yellow; }
+        .diamond-4 { background-color: green; }
+        .diamond-5 { background-color: purple; }
+    </style>
+</head>
+<body>
+    <h1>Match 10 times to unlock the secret!</h1>
+    <div class="game-container" id="gameBoard"></div>
+    <p>Moves: <span id="moves">0</span>/10</p>
+
+    <script>
+        const colors = ["diamond-1", "diamond-2", "diamond-3", "diamond-4", "diamond-5"];
+        const boardSize = 5;
+        let board = [];
+        let selected = null;
+        let moves = 0;
+
+        function createBoard() {
+            const gameBoard = document.getElementById("gameBoard");
+            gameBoard.innerHTML = "";
+            board = [];
+
+            for (let i = 0; i < boardSize; i++) {
+                board[i] = [];
+                for (let j = 0; j < boardSize; j++) {
+                    const cell = document.createElement("div");
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    cell.className = cell ${randomColor};
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener("click", selectCell);
+                    board[i][j] = randomColor;
+                    gameBoard.appendChild(cell);
+                }
+            }
+        }
+
+        function selectCell(event) {
+            if (selected) {
+                swapDiamonds(selected, event.target);
+                selected = null;
+            } else {
+                selected = event.target;
+            }
+        }
+
+        function swapDiamonds(cell1, cell2) {
+            const tempClass = cell1.className;
+            cell1.className = cell2.className;
+            cell2.className = tempClass;
+
+            moves++;
+            document.getElementById("moves").innerText = moves;
+
+            if (moves >= 10) {
+                setTimeout(() => {
+                    window.location.href = "https://drive.google.com/file/d/14v8fGnHlj1YLdRRtcT3ZnVudX_QerjTf/view?usp=drive_link"; // Pune linkul tău aici
+                }, 1000);
+            }
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
